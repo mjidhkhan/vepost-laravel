@@ -11,7 +11,10 @@
 |
 */
 
-// Aboyt Page
+Route::get('/', function(){
+	return'start up page';
+});
+// About Page
 Route::get('/about', 'AboutController@index');
 
 // Support Page

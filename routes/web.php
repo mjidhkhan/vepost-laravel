@@ -11,6 +11,24 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Aboyt Page
+Route::get('/about', 'AboutController@index');
+
+// Support Page
+Route:: get('/support', 'SupportController@index');
+
+
+//Features Page
+Route::get('/features', 'AboutController@index');
+
+// Download Page
+Route::get('/downloads', 'DownloadController@index');
+
+
+
+
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

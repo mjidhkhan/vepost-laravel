@@ -12,8 +12,10 @@ $factory->define(Model::class, function (Faker $faker) {
     ];
 });
 
+/*
 User::create([
     'name' => 'John Doe',
     'email' => 'john@example.com',
     'password' => bcrypt('secret'),
 ]);
+*/

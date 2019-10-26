@@ -53,9 +53,9 @@ class LoginTest extends TestCase
     }
 
     // check too many login attempts route
-    protected function getTooManyLoginAttemptesMessage()
+    protected function getTooManyLoginAttemptsMessage()
     {
-        return sprintf('/^%s$/'. str_replace('\:seconds', '\d+', preg_quote(__('auth.throttle'), '/')));
+        return sprintf('/^%s$/', str_replace('\:seconds', '\d+', preg_quote(__('auth.throttle'), '/')));
     }
 
 
@@ -78,17 +78,15 @@ class LoginTest extends TestCase
         $response = $this->actingAs($user)->get($this->loginGetRoute());
         $response->assertRedirect($this->guestMiddlewareRoute());
     }
-    
 
     /** @test */
     public function user_can_login_with_correct_credentials()
     {
-        
         $user = factory(User::class)->create([
             'password'=>bcrypt($password = 'i-love-laravel'),
         ]);
 
-        $response = $this->post($this->loginPostRoute(),[
+        $response = $this->post($this->loginPostRoute(), [
             'email' => $user->email,
             'password'=>$password,
         ]);
@@ -109,7 +107,7 @@ class LoginTest extends TestCase
         // Try login with different password Y
         // where Y= 'different-password'
         $y = 'different-password';
-        $response = $this->from($this->loginGetRoute())->post($this->loginPostRoute(),[
+        $response = $this->from($this->loginGetRoute())->post($this->loginPostRoute(), [
             'email' => $user->email,
             'password' => $y,
         ]);
@@ -126,7 +124,6 @@ class LoginTest extends TestCase
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
         $this->assertGuest();
-
     }
 
     /** @test */
@@ -151,35 +148,41 @@ class LoginTest extends TestCase
         $response->assertRedirect($this->successfulLoginRoute());
 
         // To assert against a cookie, we need to know what is its name and what values
-        // does it hold. Name of the cookie is available through the Auth facade. 
+        // does it hold. Name of the cookie is available through the Auth facade.
         // Just call Auth::guard()->getrecallerName().
-        $value = vsprintf('%s|%s|%s',
-        [
+        $value = vsprintf(
+            '%s|%s|%s',
+            [
             $user->id,
             $user->getRememberToken(),
             $user->password,
-        ]);
+        ]
+        );
         $response->assertCookie(Auth::guard()->getRecallerName(), $value);
         $this->assertAuthenticatedAs($user);
     }
-    
+
+
     /** @test */
     public function user_can_not_login_with_email_that_does_not_exist()
     {
         $response = $this->from($this->loginGetRoute())
-            ->post($this->loginPostRoute(),
-            [
+            ->post(
+                $this->loginPostRoute(),
+                [
                 'email'=>'nobody@example.com',
                 'password' => 'invalid-password',
-            ]);
+            ]
+            );
 
-           $response->assertRedirect($this->loginGetRoute());
-           $response->assertSessionHasErrors('email');
-           $this->assertTrue(session()->hasOldInput('email'));
-           $this->assertFalse(session()->hasOldInput('password'));
-           $this->assertGuest();
+        $response->assertRedirect($this->loginGetRoute());
+        $response->assertSessionHasErrors('email');
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertGuest();
     }
-    
+
+
 
     /** @test */
     public function user_can_logout_properly()
@@ -199,41 +202,37 @@ class LoginTest extends TestCase
         $response->assertRedirect($this->successfulLogoutRoute());
         $this->assertGuest();
     }
-    
     /** @test */
     public function user_can_not_make_more_then_five_attempts_in_one_minute()
     {
+       //$this->withoutExceptionHandling();
         $user = factory(User::class)->create([
-            'password'=>Hash::make($password = 'i-love-laravel'),
+            'password' => Hash::make($password = 'i-love-laravel'),
         ]);
-
-        foreach(range(0,5) as $_){
-            $response = $this->from($this->loginGetRoute())
-                        ->post($this->loginPostRoute(), [
-                            'email'=> $user->email,
-                            'password'=>'invalid=Password'
-                        ]);
-            $response->assertRedirect($this->loginPostRoute());
-            $response->assertSessionHasErrors('email');
-            $this->assertRegExp(
-                $this->getTooManyLoginAttemptesMessage(),
-                collect(
-                    $response
-                    ->baseResponse
-                    ->getSession()
-                    ->get('errors')
-                    ->getBag('default')
-                    ->get('email')
-                )->first()
-            );
-            $this->assertTrue(session()->hasOldInput('email'));
-            $this->assertFalse(session());
-            //https://github.com/DCzajkowski/auth-tests/blob/master/src/Console/stubs/tests/Feature/Auth/LoginTest.php
-
+        foreach (range(0, 5) as $_) {
+            $response = $this->from($this->loginGetRoute())->post($this->loginPostRoute(), [
+                'email' => $user->email,
+                'password' => 'invalid-password',
+            ]);
         }
+        $response->assertRedirect($this->loginGetRoute());
+        $response->assertSessionHasErrors('email');
+        $this->assertRegExp(
+            $this->getTooManyLoginAttemptsMessage(),
+            collect(
+                $response
+                ->baseResponse
+                ->getSession()
+                ->get('errors')
+                ->getBag('default')
+                ->get('email')
+            )->first()
+        );
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertGuest();
+
+
+            //https://github.com/DCzajkowski/auth-tests/blob/master/src/Console/stubs/tests/Feature/Auth/LoginTest.php
     }
-    
-    
-    
-    
 }

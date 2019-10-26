@@ -67,7 +67,7 @@ class ForgetPasswordTest extends TestCase
 
 
     }
-    
+
     /** @test */
     public function user_receives_an_email_with_a_password_reset_link()
     {
@@ -133,7 +133,5 @@ class ForgetPasswordTest extends TestCase
         $response->assertRedirect(($this->passwordEmailGetRoute()));
         $response->assertSessionHasErrors('email');
     }
-    
-    
 
 }

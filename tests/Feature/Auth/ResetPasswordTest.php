@@ -82,7 +82,7 @@ class ResetPasswordTest extends TestCase
     {
         $this->withoutExceptionHandling();
         //Given
-            // User can reset password with valid token.
+        // User can reset password with valid token.
         Event::fake();
         $user = factory(User::class)->create();
 
@@ -105,6 +105,85 @@ class ResetPasswordTest extends TestCase
 
 
     }
-    
+
+    /** @test */
+    public function user_can_not_reset_password_with_invalid_token()
+    {
+        //Given
+
+        $user = factory(User::class)->create([
+            'password'=>bcrypt('old-password'),
+        ]);
+
+        //When
+        $response = $this->from($this->passwordResetGetRoute($this->getInvalidToken()))
+                    ->post($this->passwordResetPostRoute(), [
+                        'email' => $this->getInvalidToken(),
+                        'email' => $user->email,
+                        'password' => 'new-password',
+                        'password_confirmation' => 'new-password'
+                    ]);
+
+        //Then
+        $response->assertRedirect($this->passwordResetGetRoute($this->getInvalidToken()));
+        $this->assertEquals($user->email, $user->fresh()->email);
+        $this->assertTrue(Hash::check('old-password', $user->fresh()->password));
+        $this->assertGuest();
+
+    }
+
+    /** @test */
+    public function user_cannot_reset_password_without_providing_new_password()
+    {
+        // Given
+        $user = factory(User::class)->create([
+            'password' => bcrypt('old-password'),
+        ]);
+
+        $response = $this->from($this->passwordResetGetRoute($token = $this->getValidToken($user)))
+                            ->post($this->passwordResetPostRoute(),[
+                                'token' => $this->getValidToken($user),
+                                'email' => $user->email,
+                                'password' => '',
+                                'password_confirmation' => '',
+                            ]);
+
+        //Then
+        $response->assertRedirect($this->passwordResetGetRoute($token));
+        $response->assertSessionHasErrors('password');
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertEquals($user->email, $user->fresh()->email);
+        $this->assertTrue(Hash::check('old-password', $user->fresh()->password));
+        $this->assertGuest();
+
+    }
+
+    /** @test */
+    public function user_canot_reset_password_without_providing_an_email()
+    {
+        //Given
+        $user = factory(User::class)->create([
+            'password' => bcrypt('old-password'),
+        ]);
+
+        //When
+        $response = $this->from($this->passwordResetGetRoute($token = $this->getValidToken($user)))
+                            ->post($this->passwordResetPostRoute(),[
+                                'token' => $token,
+                                'email' =>'',
+                                'password' => 'new-password',
+                                'password_confirmation'=>'new-password',
+                            ]);
+        //Then
+
+        $response->assertRedirect($this->passwordResetGetRoute($token));
+        $response->assertSessionHasErrors('email');
+        $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertEquals($user->email, $user->fresh()->email);
+        $this->assertTrue(Hash::check('old-password', $user->fresh()->password));
+        $this->assertGuest();
+    }
+
 
 }

@@ -210,10 +210,9 @@ class LoginTest extends TestCase
             ->post(
                 $this->loginPostRoute(),
                 [
-                'email'=>'nobody@example.com',
-                'password' => 'invalid-password',
-            ]
-            );
+                    'email'=>'nobody@example.com',
+                    'password' => 'invalid-password',
+                ]);
 
         //Then
         $response->assertRedirect($this->loginGetRoute());

@@ -63,8 +63,12 @@ class LoginTest extends TestCase
     /** @test */
     public function user_can_view_a_login_form()
     {
+        //Given
+
+        //When
         $response = $this->get($this->loginGetRoute());
 
+        //Then
         $response->assertSuccessful();
         $response->assertViewIs('auth.login');
     }
@@ -74,22 +78,49 @@ class LoginTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
+        //Given
         $user = factory(User::class)->make();
+
+        //When
         $response = $this->actingAs($user)->get($this->loginGetRoute());
+
+        //Then
         $response->assertRedirect($this->guestMiddlewareRoute());
     }
 
     /** @test */
+    public function it_can_not_login_if_user_doesnt_exist()
+    {
+        //Given
+
+        //When
+        $response = $this->from($this->loginGetRoute())
+                            ->post($this->loginPostRoute(),[
+                                'email'=>'doesnot-exist-email',
+                                'password'=>'wrong=password'
+                            ]);
+        //Then
+        $response->assertRedirect($this->loginGetRoute());
+        $response->assertSessionHasErrors('email');
+        $this->assertGuest();
+    }
+    
+
+    /** @test */
     public function user_can_login_with_correct_credentials()
     {
+        //Given
         $user = factory(User::class)->create([
             'password'=>bcrypt($password = 'i-love-laravel'),
         ]);
 
+        //When
         $response = $this->post($this->loginPostRoute(), [
             'email' => $user->email,
             'password'=>$password,
         ]);
+
+        //Then
         $response->assertRedirect($this->successfulLoginRoute());
         $this->assertAuthenticatedAs($user);
     }
@@ -97,6 +128,7 @@ class LoginTest extends TestCase
     /** @test */
     public function user_cannot_login_with_incorrect_password()
     {
+        //Given
         // create user in database with password X.
         // where X = 'i-love-laravel'
         $x = 'i-love-laravel';
@@ -104,6 +136,7 @@ class LoginTest extends TestCase
             'password' => bcrypt($x),
         ]);
 
+        //When
         // Try login with different password Y
         // where Y= 'different-password'
         $y = 'different-password';
@@ -112,6 +145,7 @@ class LoginTest extends TestCase
             'password' => $y,
         ]);
 
+        //Then
         // What we checking here
         // 1-   Should redirect back to login page
         // 2-   An error in the session
@@ -129,14 +163,15 @@ class LoginTest extends TestCase
     /** @test */
     public function remember_me_functionality()
     {
+        //Given
         // Created User
         $user = factory(User::class)->create([
             'id'=>random_int(1, 100),
             'password' => bcrypt($password = 'i-love-laravel'),
         ]);
 
+        //When
         // Make Request to login with remember me on.
-
         $response = $this->post($this->loginPostRoute(), [
             'email' => $user->email,
             'password'=> $password,
@@ -145,6 +180,7 @@ class LoginTest extends TestCase
 
         $user = $user->fresh();
 
+        //Then
         $response->assertRedirect($this->successfulLoginRoute());
 
         // To assert against a cookie, we need to know what is its name and what values
@@ -153,11 +189,12 @@ class LoginTest extends TestCase
         $value = vsprintf(
             '%s|%s|%s',
             [
-            $user->id,
-            $user->getRememberToken(),
-            $user->password,
-        ]
+                $user->id,
+                $user->getRememberToken(),
+                $user->password,
+            ]
         );
+
         $response->assertCookie(Auth::guard()->getRecallerName(), $value);
         $this->assertAuthenticatedAs($user);
     }
@@ -166,6 +203,9 @@ class LoginTest extends TestCase
     /** @test */
     public function user_can_not_login_with_email_that_does_not_exist()
     {
+        //Given
+
+        //When
         $response = $this->from($this->loginGetRoute())
             ->post(
                 $this->loginPostRoute(),
@@ -175,6 +215,7 @@ class LoginTest extends TestCase
             ]
             );
 
+        //Then
         $response->assertRedirect($this->loginGetRoute());
         $response->assertSessionHasErrors('email');
         $this->assertTrue(session()->hasOldInput('email'));
@@ -188,9 +229,14 @@ class LoginTest extends TestCase
     public function user_can_logout_properly()
     {
         $this->withoutExceptionHandling();
+
+        //Given
         $this->be(factory(User::class)->create());
 
+        //When
         $response = $this->post($this->logoutRoute());
+
+        //Then
         $response->assertRedirect($this->successfulLogoutRoute());
         $this->assertGuest();
     }
@@ -198,7 +244,12 @@ class LoginTest extends TestCase
     /** @test */
     public function user_can_not_logout_when_not_authenticated()
     {
+        //Given
+
+        //When
         $response = $this->post($this->logoutRoute());
+
+        //Then
         $response->assertRedirect($this->successfulLogoutRoute());
         $this->assertGuest();
     }
@@ -206,15 +257,21 @@ class LoginTest extends TestCase
     public function user_can_not_make_more_then_five_attempts_in_one_minute()
     {
        //$this->withoutExceptionHandling();
+
+       //Given
         $user = factory(User::class)->create([
             'password' => Hash::make($password = 'i-love-laravel'),
         ]);
+
+        //When
         foreach (range(0, 5) as $_) {
             $response = $this->from($this->loginGetRoute())->post($this->loginPostRoute(), [
                 'email' => $user->email,
                 'password' => 'invalid-password',
             ]);
         }
+
+        //Then
         $response->assertRedirect($this->loginGetRoute());
         $response->assertSessionHasErrors('email');
         $this->assertRegExp(

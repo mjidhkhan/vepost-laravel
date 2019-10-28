@@ -255,9 +255,9 @@ class LoginTest extends TestCase
     /** @test */
     public function user_can_not_make_more_then_five_attempts_in_one_minute()
     {
-       //$this->withoutExceptionHandling();
+        //$this->withoutExceptionHandling();
 
-       //Given
+        //Given
         $user = factory(User::class)->create([
             'password' => Hash::make($password = 'i-love-laravel'),
         ]);
@@ -287,8 +287,5 @@ class LoginTest extends TestCase
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
         $this->assertGuest();
-
-
-            //https://github.com/DCzajkowski/auth-tests/blob/master/src/Console/stubs/tests/Feature/Auth/LoginTest.php
     }
 }

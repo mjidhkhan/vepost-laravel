@@ -274,6 +274,46 @@ class RegisterTest extends TestCase
         $this->assertFalse(session()->hasOldInput('displayname'));
         $this->assertGuest();
     }
+    /** @test */
+    public function user_cannot_register_without_display_name()
+    {
+        $response = $this->from($this->registerGetRoute())
+                ->post($this->registerPostRoute(), array_merge($this->data(),
+                    [
+                        'display_name' => '',
+                    ])
+                );
+        $users = User::all();
+        $this->assertCount(0, $users);
+        $response->assertRedirect($this->registerGetRoute());
+        $response->assertSessionHasErrors('display_name');
+        $this->assertTrue(session()->hasOldInput('name'));
+         $this->assertTrue(session()->hasOldInput('username'));
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertFalse(session()->hasOldInput('displayname'));
+        $this->assertGuest();
+    }
+    /** @test */
+    public function user_cannot_register_without_phoneno()
+    {
+        $response = $this->from($this->registerGetRoute())
+                ->post($this->registerPostRoute(), array_merge($this->data(),
+                    [
+                        'phone' => '',
+                    ])
+                );
+        $users = User::all();
+        $this->assertCount(0, $users);
+        $response->assertRedirect($this->registerGetRoute());
+        $response->assertSessionHasErrors('phone');
+        $this->assertTrue(session()->hasOldInput('name'));
+         $this->assertTrue(session()->hasOldInput('username'));
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertFalse(session()->hasOldInput('displayname'));
+        $this->assertGuest();
+    }
 
 
     private function data()

@@ -76,7 +76,11 @@ class RegisterTest extends TestCase
     public function user_cannot_register_without_name()
     {
         $response = $this->from($this->registerGetRoute())
-            ->post($this->registerPostRoute(), array_merge($this->data(),['name' => '',]));
+            ->post($this->registerPostRoute(), array_merge($this->data(),
+                [
+                    'name' => '',
+                ])
+            );
         $users = User::all();
         $this->assertCount(0, $users);
         $response->assertRedirect($this->registerGetRoute());
@@ -84,7 +88,12 @@ class RegisterTest extends TestCase
         $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
-        $this->assertFalse(session()->hasOldInput('displayname'));
+        $this->assertTrue(session()->hasOldInput('display_name'));
+        $this->assertTrue(session()->hasOldInput('phone'));
+        $this->assertTrue(session()->hasOldInput('vep_code'));
+        $this->assertTrue(session()->hasOldInput('country_code'));
+        $this->assertTrue(session()->hasOldInput('security_question'));
+        $this->assertTrue(session()->hasOldInput('security_answer'));
         $this->assertGuest();
     }
 
@@ -104,7 +113,12 @@ class RegisterTest extends TestCase
         $this->assertTrue(session()->hasOldInput('name'));
          $this->assertTrue(session()->hasOldInput('username'));
         $this->assertFalse(session()->hasOldInput('password'));
-        $this->assertFalse(session()->hasOldInput('displayname'));
+        $this->assertTrue(session()->hasOldInput('display_name'));
+        $this->assertTrue(session()->hasOldInput('phone'));
+        $this->assertTrue(session()->hasOldInput('vep_code'));
+        $this->assertTrue(session()->hasOldInput('country_code'));
+        $this->assertTrue(session()->hasOldInput('security_question'));
+        $this->assertTrue(session()->hasOldInput('security_answer'));
         $this->assertGuest();
     }
 
@@ -125,7 +139,12 @@ class RegisterTest extends TestCase
          $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
-        $this->assertFalse(session()->hasOldInput('displayname'));
+        $this->assertTrue(session()->hasOldInput('display_name'));
+        $this->assertTrue(session()->hasOldInput('phone'));
+        $this->assertTrue(session()->hasOldInput('vep_code'));
+        $this->assertTrue(session()->hasOldInput('country_code'));
+        $this->assertTrue(session()->hasOldInput('security_question'));
+        $this->assertTrue(session()->hasOldInput('security_answer'));
         $this->assertGuest();
     }
 
@@ -147,7 +166,12 @@ class RegisterTest extends TestCase
          $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
-        $this->assertFalse(session()->hasOldInput('displayname'));
+        $this->assertTrue(session()->hasOldInput('display_name'));
+        $this->assertTrue(session()->hasOldInput('phone'));
+        $this->assertTrue(session()->hasOldInput('vep_code'));
+        $this->assertTrue(session()->hasOldInput('country_code'));
+        $this->assertTrue(session()->hasOldInput('security_question'));
+        $this->assertTrue(session()->hasOldInput('security_answer'));
         $this->assertGuest();
     }
 
@@ -168,7 +192,12 @@ class RegisterTest extends TestCase
          $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
-        $this->assertFalse(session()->hasOldInput('displayname'));
+        $this->assertTrue(session()->hasOldInput('display_name'));
+        $this->assertTrue(session()->hasOldInput('phone'));
+        $this->assertTrue(session()->hasOldInput('vep_code'));
+        $this->assertTrue(session()->hasOldInput('country_code'));
+        $this->assertTrue(session()->hasOldInput('security_question'));
+        $this->assertTrue(session()->hasOldInput('security_answer'));
         $this->assertGuest();
     }
 
@@ -190,7 +219,12 @@ class RegisterTest extends TestCase
          $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
-        $this->assertFalse(session()->hasOldInput('displayname'));
+        $this->assertTrue(session()->hasOldInput('display_name'));
+        $this->assertTrue(session()->hasOldInput('phone'));
+        $this->assertTrue(session()->hasOldInput('vep_code'));
+        $this->assertTrue(session()->hasOldInput('country_code'));
+        $this->assertTrue(session()->hasOldInput('security_question'));
+        $this->assertTrue(session()->hasOldInput('security_answer'));
         $this->assertGuest();
     }
 
@@ -211,7 +245,12 @@ class RegisterTest extends TestCase
          $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
-        $this->assertFalse(session()->hasOldInput('displayname'));
+        $this->assertTrue(session()->hasOldInput('display_name'));
+        $this->assertTrue(session()->hasOldInput('phone'));
+        $this->assertTrue(session()->hasOldInput('vep_code'));
+        $this->assertFalse(session()->hasOldInput('country_code'));
+        $this->assertTrue(session()->hasOldInput('security_question'));
+        $this->assertTrue(session()->hasOldInput('security_answer'));
         $this->assertGuest();
     }
     /** @test */
@@ -228,10 +267,15 @@ class RegisterTest extends TestCase
         $response->assertRedirect($this->registerGetRoute());
         $response->assertSessionHasErrors('vep_code');
         $this->assertTrue(session()->hasOldInput('name'));
-         $this->assertTrue(session()->hasOldInput('username'));
+        $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
-        $this->assertFalse(session()->hasOldInput('displayname'));
+        $this->assertTrue(session()->hasOldInput('display_name'));
+        $this->assertTrue(session()->hasOldInput('phone'));
+        $this->assertFalse(session()->hasOldInput('vep_code'));
+        $this->assertTrue(session()->hasOldInput('country_code'));
+        $this->assertTrue(session()->hasOldInput('security_question'));
+        $this->assertTrue(session()->hasOldInput('security_answer'));
         $this->assertGuest();
     }
     /** @test */
@@ -248,10 +292,15 @@ class RegisterTest extends TestCase
         $response->assertRedirect($this->registerGetRoute());
         $response->assertSessionHasErrors('security_question');
         $this->assertTrue(session()->hasOldInput('name'));
-         $this->assertTrue(session()->hasOldInput('username'));
+        $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
-        $this->assertFalse(session()->hasOldInput('displayname'));
+        $this->assertTrue(session()->hasOldInput('display_name'));
+        $this->assertTrue(session()->hasOldInput('phone'));
+        $this->assertTrue(session()->hasOldInput('vep_code'));
+        $this->assertTrue(session()->hasOldInput('country_code'));
+        $this->assertFalse(session()->hasOldInput('security_question'));
+        $this->assertTrue(session()->hasOldInput('security_answer'));
         $this->assertGuest();
     }
     /** @test */
@@ -268,10 +317,15 @@ class RegisterTest extends TestCase
         $response->assertRedirect($this->registerGetRoute());
         $response->assertSessionHasErrors('security_answer');
         $this->assertTrue(session()->hasOldInput('name'));
-         $this->assertTrue(session()->hasOldInput('username'));
+        $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
-        $this->assertFalse(session()->hasOldInput('displayname'));
+        $this->assertTrue(session()->hasOldInput('display_name'));
+        $this->assertTrue(session()->hasOldInput('phone'));
+        $this->assertTrue(session()->hasOldInput('vep_code'));
+        $this->assertTrue(session()->hasOldInput('country_code'));
+        $this->assertTrue(session()->hasOldInput('security_question'));
+        $this->assertFalse(session()->hasOldInput('security_answer'));
         $this->assertGuest();
     }
     /** @test */
@@ -288,10 +342,13 @@ class RegisterTest extends TestCase
         $response->assertRedirect($this->registerGetRoute());
         $response->assertSessionHasErrors('display_name');
         $this->assertTrue(session()->hasOldInput('name'));
-         $this->assertTrue(session()->hasOldInput('username'));
+        $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
-        $this->assertFalse(session()->hasOldInput('displayname'));
+        $this->assertFalse(session()->hasOldInput('display_name'));
+        $this->assertTrue(session()->hasOldInput('phone'));
+        $this->assertTrue(session()->hasOldInput('vep_code'));
+        $this->assertTrue(session()->hasOldInput('country_code'));
         $this->assertGuest();
     }
     /** @test */
@@ -308,10 +365,13 @@ class RegisterTest extends TestCase
         $response->assertRedirect($this->registerGetRoute());
         $response->assertSessionHasErrors('phone');
         $this->assertTrue(session()->hasOldInput('name'));
-         $this->assertTrue(session()->hasOldInput('username'));
+        $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
-        $this->assertFalse(session()->hasOldInput('displayname'));
+        $this->assertTrue(session()->hasOldInput('display_name'));
+        $this->assertFalse(session()->hasOldInput('phone'));
+        $this->assertTrue(session()->hasOldInput('vep_code'));
+        $this->assertTrue(session()->hasOldInput('country_code'));
         $this->assertGuest();
     }
 

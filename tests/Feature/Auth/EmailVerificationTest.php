@@ -210,14 +210,6 @@ class EmailVerificationTest extends TestCase
         $response->assertRedirect($this->verificationNoticeRoute());
     }
     
-    
-    
-    
-
-
-    
-    
-    
     private function data()
     {
         return [

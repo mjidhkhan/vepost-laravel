@@ -56,6 +56,9 @@ class RegisterController extends Controller
             'vepost_address'=>['required', 'string', 'max:255'],
             'display_name'=>['required', 'string', 'max:255'],
             'country_code'=>['required'],
+            'security_question' => ['required', 'string', 'max:1'],
+            'security_answer' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone'=>['required'],
             'vep_code'=>['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -76,13 +79,12 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'username'=>$data['username'],
             'vepost_code'=>$data['vepost_code'],
+            'country_code'=>$data['country_code'],
             'vepost_address'=>$data['vepost_address'],
             'display_name'=>$data['display_name'],
-           
-           
-            'country_code'=>$data['country_code'],
+            'security_question'=>$data['security_question'],
+            'security_answer'=>$data['security_answer'],
             'phone'=>$data['phone'],
-            'vep_code'=>$data['vep_code'],
         ]);
     }
 }

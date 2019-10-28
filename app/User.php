@@ -17,8 +17,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name','username','vepost_code','vepost_address','display_name',
-        'control_string','balance','vepost_counter','status',
-        'free_send_left','country_code','phone','vep_code',
+        'control_string','country_code','phone','security_question','security_answer',
         'email','email_verified_at','password'
     ];
 

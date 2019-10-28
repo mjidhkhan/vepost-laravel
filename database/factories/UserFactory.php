@@ -21,18 +21,16 @@ $factory->define(User::class, function (Faker $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'username'=>$faker->unique()->username,
-        'vepost_code'=>$faker->postcode,
+        'vepost_code'=>$faker->countryCode,
         'vepost_address'=>$faker->postcode,
         'display_name'=>$faker->firstName(),
-        'balance'=>$faker->numberBetween($min = 1, $max = 200),
-        'vepost_counter'=>$faker->numberBetween($min = 1, $max = 50),
-        'status'=>$faker->numberBetween($min = 0, $max = 1),
-        'free_send_left'=>$faker->numberBetween($min = 1, $max = 50),
         'country_code'=>$faker->countryCode,
         'phone'=>$faker->phoneNumber,
-        'vep_code'=>$faker->countryCode,
+        'security_question'=>$faker->numberBetween($min = 0, $max = 5),
+        'security_answer'=>$faker->sentence(),
         'email_verified_at' => now(),
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         'remember_token' => Str::random(10),
     ];
 });
+

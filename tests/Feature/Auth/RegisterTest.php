@@ -81,8 +81,10 @@ class RegisterTest extends TestCase
         $this->assertCount(0, $users);
         $response->assertRedirect($this->registerGetRoute());
         $response->assertSessionHasErrors('name');
+        $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertFalse(session()->hasOldInput('displayname'));
         $this->assertGuest();
     }
 
@@ -90,13 +92,19 @@ class RegisterTest extends TestCase
     public function user_cannot_register_without_email()
     {
         $response = $this->from($this->registerGetRoute())
-                ->post($this->registerPostRoute(), array_merge($this->data(),['email' => '',]));
+                ->post($this->registerPostRoute(), array_merge($this->data(),
+                    [
+                        'email' => '',
+                    ])
+                );
         $users = User::all();
         $this->assertCount(0, $users);
         $response->assertRedirect($this->registerGetRoute());
         $response->assertSessionHasErrors('email');
         $this->assertTrue(session()->hasOldInput('name'));
+         $this->assertTrue(session()->hasOldInput('username'));
         $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertFalse(session()->hasOldInput('displayname'));
         $this->assertGuest();
     }
 
@@ -104,14 +112,20 @@ class RegisterTest extends TestCase
     public function user_cannot_register_with_invalid_email()
     {
         $response = $this->from($this->registerGetRoute())
-                ->post($this->registerPostRoute(), array_merge($this->data(),['email' => 'invalid-email',]));
+                ->post($this->registerPostRoute(), array_merge($this->data(),
+                    [
+                        'email' => 'invalid-email',
+                    ])
+                );
         $users = User::all();
         $this->assertCount(0, $users);
         $response->assertRedirect($this->registerGetRoute());
         $response->assertSessionHasErrors('email');
         $this->assertTrue(session()->hasOldInput('name'));
+         $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertFalse(session()->hasOldInput('displayname'));
         $this->assertGuest();
     }
 
@@ -119,14 +133,21 @@ class RegisterTest extends TestCase
     public function user_cannot_register_without_password()
     {
         $response = $this->from($this->registerGetRoute())
-        ->post($this->registerPostRoute(), array_merge($this->data(),['password' => '','password_confirmation' => '',]));
+            ->post($this->registerPostRoute(), array_merge($this->data(),
+                [
+                    'password' => '',
+                    'password_confirmation' => '',
+                ])
+            );
         $users = User::all();
         $this->assertCount(0, $users);
         $response->assertRedirect($this->registerGetRoute());
         $response->assertSessionHasErrors('password');
         $this->assertTrue(session()->hasOldInput('name'));
+         $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertFalse(session()->hasOldInput('displayname'));
         $this->assertGuest();
     }
 
@@ -134,14 +155,20 @@ class RegisterTest extends TestCase
     public function user_cannot_register_without_password_confirmation()
     {
         $response = $this->from($this->registerGetRoute())
-                ->post($this->registerPostRoute(), array_merge($this->data(),['password_confirmation' => '',]));
+                ->post($this->registerPostRoute(), array_merge($this->data(),
+                        [
+                            'password_confirmation' => '',
+                        ])
+                );
         $users = User::all();
         $this->assertCount(0, $users);
         $response->assertRedirect($this->registerGetRoute());
         $response->assertSessionHasErrors('password');
         $this->assertTrue(session()->hasOldInput('name'));
+         $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertFalse(session()->hasOldInput('displayname'));
         $this->assertGuest();
     }
 
@@ -149,17 +176,21 @@ class RegisterTest extends TestCase
     public function user_cannot_register_with_passwords_not_matching()
     {
         $response = $this->from($this->registerGetRoute())
-                ->post($this->registerPostRoute(), array_merge($this->data(),[
-                            'password' => 'i-love-laravel',
-                            'password_confirmation' => 'i-love-symfony',
-                            ]));
+                ->post($this->registerPostRoute(), array_merge($this->data(),
+                    [
+                        'password' => 'i-love-laravel',
+                        'password_confirmation' => 'i-love-symfony',
+                    ])
+            );
         $users = User::all();
         $this->assertCount(0, $users);
         $response->assertRedirect($this->registerGetRoute());
         $response->assertSessionHasErrors('password');
         $this->assertTrue(session()->hasOldInput('name'));
+         $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertFalse(session()->hasOldInput('displayname'));
         $this->assertGuest();
     }
 
@@ -167,32 +198,80 @@ class RegisterTest extends TestCase
     public function user_cannot_register_without_country_code()
     {
         $response = $this->from($this->registerGetRoute())
-                ->post($this->registerPostRoute(), array_merge($this->data(),[
-                            'country_code' => '',
-                            ]));
+                ->post($this->registerPostRoute(), array_merge($this->data(),
+                    [
+                        'country_code' => '',
+                    ])
+                );
         $users = User::all();
         $this->assertCount(0, $users);
         $response->assertRedirect($this->registerGetRoute());
         $response->assertSessionHasErrors('country_code');
         $this->assertTrue(session()->hasOldInput('name'));
+         $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertFalse(session()->hasOldInput('displayname'));
         $this->assertGuest();
     }
     /** @test */
     public function user_cannot_register_without_vepost_code()
     {
         $response = $this->from($this->registerGetRoute())
-                ->post($this->registerPostRoute(), array_merge($this->data(),[
-                            'vep_code' => '',
-                            ]));
+                ->post($this->registerPostRoute(), array_merge($this->data(),
+                    [
+                        'vep_code' => '',
+                    ])
+                );
         $users = User::all();
         $this->assertCount(0, $users);
         $response->assertRedirect($this->registerGetRoute());
         $response->assertSessionHasErrors('vep_code');
         $this->assertTrue(session()->hasOldInput('name'));
+         $this->assertTrue(session()->hasOldInput('username'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertFalse(session()->hasOldInput('displayname'));
+        $this->assertGuest();
+    }
+    /** @test */
+    public function user_cannot_register_without_selecting_security_question()
+    {
+        $response = $this->from($this->registerGetRoute())
+                ->post($this->registerPostRoute(), array_merge($this->data(),
+                    [
+                        'security_question' => '',
+                    ])
+                );
+        $users = User::all();
+        $this->assertCount(0, $users);
+        $response->assertRedirect($this->registerGetRoute());
+        $response->assertSessionHasErrors('security_question');
+        $this->assertTrue(session()->hasOldInput('name'));
+         $this->assertTrue(session()->hasOldInput('username'));
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertFalse(session()->hasOldInput('displayname'));
+        $this->assertGuest();
+    }
+    /** @test */
+    public function user_cannot_register_without_answering_security_question()
+    {
+        $response = $this->from($this->registerGetRoute())
+                ->post($this->registerPostRoute(), array_merge($this->data(),
+                    [
+                        'security_answer' => '',
+                    ])
+                );
+        $users = User::all();
+        $this->assertCount(0, $users);
+        $response->assertRedirect($this->registerGetRoute());
+        $response->assertSessionHasErrors('security_answer');
+        $this->assertTrue(session()->hasOldInput('name'));
+         $this->assertTrue(session()->hasOldInput('username'));
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertFalse(session()->hasOldInput('displayname'));
         $this->assertGuest();
     }
 
@@ -212,6 +291,8 @@ class RegisterTest extends TestCase
             "display_name" => "Khan",
             "country_code" => country(strtolower($geoip['iso_code']))->getCallingCode(),
             "phone" => "1234567876545",
+            "security_question" => "1",
+            "security_answer" => "laravel is awesome",
             "vep_code" => "233",
             "password" => "i-love-laravel",
             "password_confirmation" => "i-love-laravel",

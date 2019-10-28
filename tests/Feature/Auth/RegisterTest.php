@@ -2,9 +2,13 @@
 
 namespace Tests\Feature\Auth;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\User;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RegisterTest extends TestCase
 {
@@ -34,6 +38,132 @@ class RegisterTest extends TestCase
         $response = $this->get($this->registerGetRoute());
         $response->assertSuccessful();
         $response->assertViewIs('auth.register');
+    }
+
+    /** @test */
+    public function user_cannot_view_a_registration_form_when_authenticated()
+    {
+        $user = factory(User::class)->make();
+        $response = $this->actingAs($user)->get($this->registerGetRoute());
+        $response->assertRedirect($this->guestMiddlewareRoute());
+    }
+
+    /** @test */
+    public function user_can_register()
+    {
+        Event::fake();
+        $response = $this->post($this->registerPostRoute(), $this->data());
+        $response->assertRedirect($this->successfulRegistrationRoute());
+        $this->assertCount(1, $users = User::all());
+        $this->assertAuthenticatedAs($user = $users->first());
+        $this->assertEquals('John Doe', $user->name);
+        $this->assertEquals('john@example.com', $user->email);
+        $this->assertTrue(Hash::check('i-love-laravel', $user->password));
+        Event::assertDispatched(Registered::class, function ($e) use ($user) {
+            return $e->user->id === $user->id;
+        });
+    }
+
+    /** @test */
+    public function user_cannot_register_without_name()
+    {
+        $response = $this->from($this->registerGetRoute())
+            ->post($this->registerPostRoute(), array_merge($this->data(),['name' => '',]));
+        $users = User::all();
+        $this->assertCount(0, $users);
+        $response->assertRedirect($this->registerGetRoute());
+        $response->assertSessionHasErrors('name');
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertGuest();
+    }
+
+    /** @test */
+    public function user_cannot_register_without_email()
+    {
+        $response = $this->from($this->registerGetRoute())
+                ->post($this->registerPostRoute(), array_merge($this->data(),['email' => '',]));
+        $users = User::all();
+        $this->assertCount(0, $users);
+        $response->assertRedirect($this->registerGetRoute());
+        $response->assertSessionHasErrors('email');
+        $this->assertTrue(session()->hasOldInput('name'));
+        $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertGuest();
+    }
+
+    /** @test */
+    public function user_cannot_register_with_invalid_email()
+    {
+        $response = $this->from($this->registerGetRoute())
+                ->post($this->registerPostRoute(), array_merge($this->data(),['email' => 'invalid-email',]));
+        $users = User::all();
+        $this->assertCount(0, $users);
+        $response->assertRedirect($this->registerGetRoute());
+        $response->assertSessionHasErrors('email');
+        $this->assertTrue(session()->hasOldInput('name'));
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertGuest();
+    }
+
+    /** @test */
+    public function user_cannot_register_without_password()
+    {
+        $response = $this->from($this->registerGetRoute())
+        ->post($this->registerPostRoute(), array_merge($this->data(),['password' => '','password_confirmation' => '',]));
+        $users = User::all();
+        $this->assertCount(0, $users);
+        $response->assertRedirect($this->registerGetRoute());
+        $response->assertSessionHasErrors('password');
+        $this->assertTrue(session()->hasOldInput('name'));
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertGuest();
+    }
+
+    /** @test */
+    public function user_cannot_register_without_password_confirmation()
+    {
+        $response = $this->from($this->registerGetRoute())
+                ->post($this->registerPostRoute(), array_merge($this->data(),['password_confirmation' => '',]));
+        $users = User::all();
+        $this->assertCount(0, $users);
+        $response->assertRedirect($this->registerGetRoute());
+        $response->assertSessionHasErrors('password');
+        $this->assertTrue(session()->hasOldInput('name'));
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertGuest();
+    }
+
+    /** @test */
+    public function user_cannot_register_with_passwords_not_matching()
+    {
+        $response = $this->from($this->registerGetRoute())
+                ->post($this->registerPostRoute(), array_merge($this->data(),[
+                            'password' => 'i-love-laravel',
+                            'password_confirmation' => 'i-love-symfony',
+                            ]));
+        $users = User::all();
+        $this->assertCount(0, $users);
+        $response->assertRedirect($this->registerGetRoute());
+        $response->assertSessionHasErrors('password');
+        $this->assertTrue(session()->hasOldInput('name'));
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertFalse(session()->hasOldInput('password'));
+        $this->assertGuest();
+    }
+
+
+    private function data()
+    {
+        return [
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'password' => 'i-love-laravel',
+            'password_confirmation' => 'i-love-laravel',
+        ];
     }
 
 }

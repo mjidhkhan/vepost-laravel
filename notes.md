@@ -125,3 +125,7 @@ $egypt->getDivision("ALX");
 GEO Location
 
 http://lyften.com/projects/laravel-geoip/doc/services.html
+
+
+To add recaptcha follow this 
+https://codeburst.io/simple-integration-google-recaptcha-v2-with-laravel-in-details-2db49d1d8e60

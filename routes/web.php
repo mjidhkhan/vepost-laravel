@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function(){
-	return'start up page';
-});
+Route::get('/', 'HomeController@index')->name('home');
 // About Page
 Route::get('/about', 'AboutController@index');
 
@@ -26,11 +24,6 @@ Route::get('/features', 'AboutController@index');
 
 // Download Page
 Route::get('/downloads', 'DownloadController@index');
-
-
-
-
-
 
 //Auth::routes();
 Auth::routes(['verify' => true]);

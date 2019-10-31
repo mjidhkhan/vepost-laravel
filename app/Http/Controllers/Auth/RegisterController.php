@@ -48,20 +48,20 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+       $data =  array_merge($data, ['vepost_address'=>$data['vep_code'].$data['country_code'].$data['phone']]);
+
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'name'=>['required', 'string', 'max:255'],
+            'email'=>['required', 'string', 'email', 'max:255', 'unique:users'],
             'username'=>['required', 'string', 'max:255'],
-            'vepost_code'=>['required', 'string', 'max:255'],
-            'vepost_address'=>['required', 'string', 'max:255'],
+            'vep_code'=>['required', 'string', 'max:255'],
             'display_name'=>['required', 'string', 'max:255'],
             'country_code'=>['required'],
-            'security_question' => ['required', 'string', 'max:1'],
-            'security_answer' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email'=>['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone'=>['required'],
-            'vep_code'=>['required'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password'=>['required', 'string', 'min:2', 'confirmed'],
+            'vepost_address'=>['required', 'string', 'max:255'],
+
         ]);
     }
 
@@ -73,17 +73,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $data =  array_merge($data, ['vepost_address'=>$data['vep_code'].$data['country_code'].$data['phone']]);  
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'username'=>$data['username'],
-            'vepost_code'=>$data['vepost_code'],
+            'vep_code'=>$data['vep_code'],
             'country_code'=>$data['country_code'],
             'vepost_address'=>$data['vepost_address'],
             'display_name'=>$data['display_name'],
-            'security_question'=>$data['security_question'],
-            'security_answer'=>$data['security_answer'],
             'phone'=>$data['phone'],
         ]);
     }

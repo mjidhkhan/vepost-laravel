@@ -109,17 +109,22 @@ class LoginTest extends TestCase
     /** @test */
     public function user_can_login_with_correct_credentials()
     {
+        $this->withoutExceptionHandling();
+
         //Given
         $user = factory(User::class)->create([
             'password'=>bcrypt($password = 'i-love-laravel'),
         ]);
 
+        //dd($user->vepost_address);
         //When
         $response = $this->post($this->loginPostRoute(), [
-            'email' => $user->email,
+            //'vepost_address' => $user->vepost_address,
+            'username' => $user->username,
             'password'=>$password,
         ]);
 
+//dd($response);
         //Then
         $response->assertRedirect($this->successfulLoginRoute());
         $this->assertAuthenticatedAs($user);

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -12,23 +13,33 @@
                         @csrf
 
                         <div class="form-group row">
-                            <div class="col-md-6">
-                                
-                                <input id="vep_code" type="text" class="form-control" name="vep_code" value="233"  hidden readonly>
-
-                                <label for="country_code" class="col-md-4 col-form-label text-md-right">{{ __('Country Code') }}</label>
-                                <input id="country_code" type="text" class="form-control @error('country_code') is-invalid @enderror" name="country_code" value="{{ old('country_code') }}"  autofocus>
-                                
+                           
+                            <div class="col-md-12 col-sm-12 scrollpoint  alert alert-info alert-bottom" id="signuptop">
+                                <div class="col-md-12 col-sm-12 col-xs-12 about-item">
+                                    <label for="example-text-input" class="col-form-label pull-right blue-text"style="valign: middle;">VePOST Box No.</label> 
+                                </div>
+                                <div class="col-md-12 col-sm-1 col-xs-1 about-item flex-d" style="width:54px;">
+                                        <input id="vep_code" type="text" class="form-control" name="vep_code" value="233"  style="width:54px" readonly>
+                                        <input id="country_code" type="text" class="form-control pull-right @error('country_code') is-invalid @enderror" name="country_code" value="{{ old('country_code') }}"  style="width: 36px;padding-left: 37px;" autofocus>
+                                </div>
+                                   
                                 <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone Numner') }}</label>
                                 <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="name" autofocus>
 
-                                @error('name')
+                                @error('phone')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>
+                                </div>
+                            
                         </div>
+                        
+
+                        
+                        
+                        
+                        
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
@@ -118,4 +129,13 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
 @endsection

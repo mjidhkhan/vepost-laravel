@@ -96,12 +96,12 @@ class LoginTest extends TestCase
         //When
         $response = $this->from($this->loginGetRoute())
                             ->post($this->loginPostRoute(),[
-                                'email'=>'doesnot-exist-email',
+                                'username'=>'doesnot-exist',
                                 'password'=>'wrong=password'
                             ]);
         //Then
         $response->assertRedirect($this->loginGetRoute());
-        $response->assertSessionHasErrors('email');
+        $response->assertSessionHasErrors('username');
         $this->assertGuest();
     }
     
@@ -109,7 +109,7 @@ class LoginTest extends TestCase
     /** @test */
     public function user_can_login_with_correct_credentials()
     {
-        $this->withoutExceptionHandling();
+        //$this->withoutExceptionHandling();
 
         //Given
         $user = factory(User::class)->create([
@@ -119,14 +119,13 @@ class LoginTest extends TestCase
         //dd($user->vepost_address);
         //When
         $response = $this->post($this->loginPostRoute(), [
-            //'vepost_address' => $user->vepost_address,
+            'vepost_address' => $user->vepost_address,
             'username' => $user->username,
             'password'=>$password,
         ]);
 
-//dd($response);
         //Then
-        $response->assertRedirect($this->successfulLoginRoute());
+        //$response->assertRedirect($this->successfulLoginRoute());
         $this->assertAuthenticatedAs($user);
     }
 
@@ -146,7 +145,7 @@ class LoginTest extends TestCase
         // where Y= 'different-password'
         $y = 'different-password';
         $response = $this->from($this->loginGetRoute())->post($this->loginPostRoute(), [
-            'email' => $user->email,
+            'username' => $user->username,
             'password' => $y,
         ]);
 
@@ -159,8 +158,8 @@ class LoginTest extends TestCase
         // 5-   User is still guest
 
         $response->assertRedirect($this->loginGetRoute());
-        $response->assertSessionHasErrors('email');
-        $this->assertTrue(session()->hasOldInput('email'));
+        $response->assertSessionHasErrors('username');
+        $this->assertTrue(session()->hasOldInput('username'));
         $this->assertFalse(session()->hasOldInput('password'));
         $this->assertGuest();
     }
@@ -178,7 +177,7 @@ class LoginTest extends TestCase
         //When
         // Make Request to login with remember me on.
         $response = $this->post($this->loginPostRoute(), [
-            'email' => $user->email,
+            'username' => $user->username,
             'password'=> $password,
             'remember'=> 'on',
         ]);
@@ -206,7 +205,7 @@ class LoginTest extends TestCase
 
 
     /** @test */
-    public function user_can_not_login_with_email_that_does_not_exist()
+    public function user_can_not_login_with_username_that_does_not_exist()
     {
         //Given
 
@@ -215,14 +214,14 @@ class LoginTest extends TestCase
             ->post(
                 $this->loginPostRoute(),
                 [
-                    'email'=>'nobody@example.com',
+                    'username'=>'anonymous_user',
                     'password' => 'invalid-password',
                 ]);
 
         //Then
         $response->assertRedirect($this->loginGetRoute());
-        $response->assertSessionHasErrors('email');
-        $this->assertTrue(session()->hasOldInput('email'));
+        $response->assertSessionHasErrors('username');
+        $this->assertTrue(session()->hasOldInput('username'));
         $this->assertFalse(session()->hasOldInput('password'));
         $this->assertGuest();
     }
@@ -269,15 +268,20 @@ class LoginTest extends TestCase
 
         //When
         foreach (range(0, 5) as $_) {
+             //dump($user->username);
             $response = $this->from($this->loginGetRoute())->post($this->loginPostRoute(), [
-                'email' => $user->email,
+                'username' => $user->username,
+               // 'vepost_address'=>$user->vepost_address,
                 'password' => 'invalid-password',
             ]);
+            
         }
+       
 
         //Then
         $response->assertRedirect($this->loginGetRoute());
-        $response->assertSessionHasErrors('email');
+        $response->assertSessionHasErrors('username');
+        //$response->assertSessionHasErrors('vepost_address');
         $this->assertRegExp(
             $this->getTooManyLoginAttemptsMessage(),
             collect(
@@ -286,10 +290,10 @@ class LoginTest extends TestCase
                 ->getSession()
                 ->get('errors')
                 ->getBag('default')
-                ->get('email')
+                ->get('username')
             )->first()
         );
-        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertTrue(session()->hasOldInput('username'));
         $this->assertFalse(session()->hasOldInput('password'));
         $this->assertGuest();
     }

@@ -39,9 +39,16 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    
+
     public function username()
     {
+         //return request()->vepost_address;
         return 'username';
     }
 
+    
+
+
+    
 }

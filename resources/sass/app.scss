@@ -6,3 +6,92 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+
+
+	.flg {
+		height: auto;
+		width: 700px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		background: #eee;
+
+	}
+
+	#error-msg {
+		color: red;
+	}
+
+	#valid-msg {
+		color: #00C900;
+	}
+
+	input.error {
+		border: 1px solid #FF7C7C;
+	}
+
+	.question-list {
+		position: absolute;
+		z-index: 2;
+		list-style: none;
+		text-align: left;
+		padding: 0;
+		margin: 0 0 0 -1px;
+		box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+		background-color: white;
+		border: 1px solid #CCC;
+		white-space: nowrap;
+		max-height: 200px;
+		overflow-y: scroll;
+	}
+
+	.alert {
+
+		margin-bottom: 0px;
+		border-radius: 0px;
+	}
+
+	.alert-bottom {
+		border-bottom: 0px;
+	}
+
+	.alert-top {
+		border-top: 0px;
+	}
+
+	.btn-platform {
+		-webkit-border-radius: 0em;
+		-moz-border-radius: 0em;
+		-ms-border-radius: 0em;
+		-o-border-radius: 0em;
+		border-radius: 0em;
+		border: .5em solid #336799;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		box-shadow: none;
+		padding: 50px 50px;
+		color: #336799;
+		border-color: #336799;
+	}
+
+	.vep-error {
+		color: #a94442
+	}
+
+	.h1,
+	.h2,
+	.h3,
+	.h4,
+	.h5,
+	.h6,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: inherit;
+		font-weight: 500;
+		line-height: 1.4;
+
+	}

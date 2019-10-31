@@ -24,7 +24,7 @@ $factory->define(User::class, function (Faker $faker) {
         'email' => $faker->unique()->safeEmail,
         'username'=>$faker->unique()->username,
         'vep_code'=>'233',
-         'vepost_address' => '233'.country(strtolower($geoip['iso_code']))->getCallingCode().'07454644765',
+        'vepost_address' => '233'.country(strtolower($geoip['iso_code']))->getCallingCode().'07454644765',
         'display_name'=>$faker->firstName(),
         'country_code'=>country(strtolower($geoip['iso_code']))->getCallingCode(),
         'phone'=>$faker->phoneNumber,

@@ -109,7 +109,9 @@ class LoginTest extends TestCase
     /** @test */
     public function user_can_login_with_correct_credentials()
     {
-        //$this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
+
+        //$this->withSession;
 
         //Given
         $user = factory(User::class)->create([
@@ -125,8 +127,10 @@ class LoginTest extends TestCase
         ]);
 
         //Then
-        //$response->assertRedirect($this->successfulLoginRoute());
+        
+        $response->assertRedirect($this->successfulLoginRoute());
         $this->assertAuthenticatedAs($user);
+        dd(Session::get('vepost_address'));
     }
 
     /** @test */

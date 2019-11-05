@@ -8,20 +8,51 @@
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
 
-                <div class="card-body">
+                <div class="mb-4">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
                         <div class="form-group row">
                            
                             <div class="col-md-12 col-sm-12 scrollpoint  alert alert-info alert-bottom" id="signuptop">
-                                <div class="col-md-12 col-sm-12 col-xs-12 about-item">
-                                    <label for="example-text-input" class="col-form-label pull-right blue-text"style="valign: middle;">VePOST Box No.</label> 
-                                </div>
-                                <div class="col-md-12 col-sm-1 col-xs-1 about-item flex-d" style="width:54px;">
-                                        <input id="vep_code" type="text" class="form-control" name="vep_code" value="233"  style="width:54px" readonly>
+                                    <label for="example-text-input" class="cblock text-gray-700 text-sm font-bold mb-2">{{ __('VePost Box No') }}</label> 
+                                <div class="col-md-6">
+                                        <input id="vep_code" 
+                                        type="text" 
+                                        class="appearance-none border  w-full py-2 px-3 text-gray-400 leading-tight" 
+                                        name="vep_code" 
+                                        value="233"  
+                                        style="width:54px" readonly>
                                         <input id="country_code" type="text" class="form-control pull-right @error('country_code') is-invalid @enderror" name="country_code" value="{{ old('country_code') }}"  style="width: 36px;padding-left: 37px;" autofocus>
                                 </div>
+
+                                <div class="flex flex-wrap -mx-3 mb-2">
+    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
+        VePost Code
+      </label>
+      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="Albuquerque">
+    </div>
+    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+        Coutry Code
+      </label>
+      <div class="relative">
+        <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+          <option>New Mexico</option>
+          <option>Missouri</option>
+          <option>Texas</option>
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+          <input id="vepost_address" 
+                                    type="text" 
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('vepost_address') is-invalid @enderror" 
+                                    name="vepost_address" value="{{ old('vepost_address') }}"  
+                                    autocomplete="vepost_address" 
+                                    autofocus>
+        </div>
+      </div>
+    </div>
                                    
                                 <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone Numner') }}</label>
                                 <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="name" autofocus>

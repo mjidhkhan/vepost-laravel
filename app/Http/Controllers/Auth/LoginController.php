@@ -44,6 +44,10 @@ class LoginController extends Controller
     public function username()
     {
          //return request()->vepost_address;
+        request()->session()->put('vepost_address', request()->vepost_address);
+        request()->session()->put('username', request()->username);
+        //request()->session()->keep([request()->username, request()->vepost_address]);
+        //dd(request()->session()->all());
         return 'username';
     }
 

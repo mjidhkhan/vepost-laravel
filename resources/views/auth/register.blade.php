@@ -46,8 +46,8 @@
                                 </div>
 
                                 @error('phone')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                    <span class="text-red-500 text-xs italic" role="alert">
+                                        {{ $message }}
                                     </span>
                                 @enderror
 
@@ -70,8 +70,8 @@
                                 autocomplete="name" autofocus>
 
                                 @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                    <span class="text-red-500 text-xs italic" role="alert">
+                                       {{ $message }}
                                     </span>
                                 @enderror
                             </div>
@@ -88,8 +88,8 @@
                                         value="{{ old('username') }}">
 
                                 @error('username')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                    <span class="text-red-500 text-xs italic" role="alert">
+                                        {{ $message }}
                                     </span>
                                 @enderror
                             </div>
@@ -98,10 +98,10 @@
                             
                              <label for="display_name" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Display Name') }}</label>
                             <div class="col-md-6">
-                                <input id="display_name" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('display_name') is-invalid @enderror" name="display_name" value="{{ old('display_name') }}"  >
-                                @error('displayname')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                <input id="display_name" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('displayname') is-invalid @enderror" name="display_name" value="{{ old('display_name') }}"  >
+                                @error('display_name')
+                                    <span class="text-red-500 text-xs italic" role="alert">
+                                        {{ $message }}
                                     </span>
                                 @enderror
                             </div>
@@ -114,8 +114,8 @@
                                 <input id="email" type="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email">
 
                                 @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                    <span class="text-red-500 text-xs italic" role="alert">
+                                        {{ $message }}
                                     </span>
                                 @enderror
                             </div>
@@ -129,8 +129,8 @@
                                 <input id="password" type="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('password') is-invalid @enderror" name="password"  autocomplete="new-password">
 
                                 @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                    <span class="text-red-500 text-xs italic" role="alert">
+                                       {{ $message }}
                                     </span>
                                 @enderror
                             </div>

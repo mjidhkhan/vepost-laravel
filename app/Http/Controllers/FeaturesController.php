@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class FeacturesController extends Controller
+class FeaturesController extends Controller
 {
     public function index()
     {
-        
+        return view('pages.features');
     }
 }

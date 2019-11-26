@@ -20,9 +20,9 @@
                                         autocomplete="vepost_address" 
                                         autofocus>
 
-                                    @error('email')
+                                    @error('vepost_address')
                                         <span class="text-red-500 text-xs italic" role="alert">
-                                            <strong>{{ $message }}</strong>
+                                            {{ $message }}
                                         </span>
                                     @enderror
                                 </div>
@@ -39,9 +39,9 @@
                                     autocomplete="username" 
                                     autofocus>
 
-                                    @error('email')
+                                    @error('username')
                                         <span class="text-red-500 text-xs italic" role="alert">
-                                            <strong>{{ $message }}</strong>
+                                           {{ $message }}
                                         </span>
                                     @enderror
                                 </div>
@@ -59,7 +59,7 @@
 
                                     @error('password')
                                         <span class="text-red-500 text-xs italic" role="alert">
-                                            <strong>{{ $message }}</strong>
+                                            {{ $message }}
                                         </span>
                                     @enderror
                                 </div>

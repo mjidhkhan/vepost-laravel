@@ -1,8 +1,282 @@
-
 @tailwind base;
-
 @tailwind components;
 
+.page {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.text-small {
+    font-size: 10px;
+}
+
+@font-face {
+    font-family: 'icomoon';
+    src: url('fonts/icomoon.eot?v9x7x9');
+    src: url('fonts/icomoon.eot?v9x7x9#iefix') format('embedded-opentype'), url('fonts/icomoon.ttf?v9x7x9') format('truetype'), url('fonts/icomoon.woff?v9x7x9') format('woff'), url('fonts/icomoon.svg?v9x7x9#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+i {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-vep-19vepost .path1:before {
+    content: "\e900";
+    color: rgb(138, 203, 202);
+}
+
+.icon-vep-19vepost .path2:before {
+    content: "\e901";
+    margin-left: -3.5556640625em;
+    color: rgb(138, 203, 202);
+}
+
+.icon-vep-19vepost .path3:before {
+    content: "\e902";
+    margin-left: -3.5556640625em;
+    color: rgb(151, 164, 183);
+}
+
+.icon-vep-19vepost .path4:before {
+    content: "\e903";
+    margin-left: -3.5556640625em;
+    color: rgb(151, 164, 183);
+}
+
+.icon-vep-19vepost .path5:before {
+    content: "\e904";
+    margin-left: -3.5556640625em;
+    color: rgb(151, 164, 183);
+}
+
+.icon-vep-19vepost .path6:before {
+    content: "\e905";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path7:before {
+    content: "\e906";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path8:before {
+    content: "\e907";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path9:before {
+    content: "\e908";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path10:before {
+    content: "\e909";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path11:before {
+    content: "\e90a";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path12:before {
+    content: "\e90b";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path13:before {
+    content: "\e90c";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path14:before {
+    content: "\e90d";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path15:before {
+    content: "\e90e";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path16:before {
+    content: "\e90f";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path17:before {
+    content: "\e910";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path18:before {
+    content: "\e911";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path19:before {
+    content: "\e912";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path20:before {
+    content: "\e913";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path21:before {
+    content: "\e914";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path22:before {
+    content: "\e915";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path23:before {
+    content: "\e916";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.icon-vep-19vepost .path24:before {
+    content: "\e917";
+    margin-left: -3.5556640625em;
+    color: rgb(54, 95, 128);
+}
+
+.bg-gradient {
+    background: rgb(53, 94, 127);
+    background: linear-gradient(90deg, rgba(53, 94, 127, 1) 0%, rgba(53, 94, 127, 1) 35%, rgba(137, 204, 202, 1) 100%);
+}
+
+.bg-top {
+    background-color: #d2d2d3;
+}
+
+.is-invalid {
+    font-size: 12px;
+}
+
+ .ve{
+	  font-size: 24px;
+	  margin-bottom: 5px;
+	  lin-height: 1;
+	  color: #8acbca;
+	  vertical-align: top;
+	}
+ .ve-size{
+	  font-size: 24px;
+	  margin-bottom: 5px;
+	  lin-height: 1;
+	 
+	  vertical-align: top;
+	}
+	.post{
+	  font-size: 32px;
+	  margin-left: -7px;
+	  color:#365f80;
+	}
+	.post-size{
+	  font-size: 32px;
+	  margin-left: -7px;
+	 
+	}
+	.usage{
+		color: #000;
+		padding-left: 20px;
+	}
+
+.pod-logo-post {
+     font-size: 70px;
+	  margin-left: -12px;
+	  color:#365f80;
+}
+.pod-logo-ve{
+     font-size: 48px;
+	  margin-bottom: 5px;
+	  lin-height: 1;
+	  vertical-align: top;
+}
+
+$icomoon-font-family: "vepost" !default;
+$icomoon-font-path: "fonts" !default;
+
+$icon-vectorpaintpstvepost: "\e900";
+$icon-vectorpaintvewvepost: "\e901";
+
+@font-face {
+  font-family: '#{$icomoon-font-family}';
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?kh80lk');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?kh80lk#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?kh80lk') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?kh80lk') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?kh80lk##{$icomoon-font-family}') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+i {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: '#{$icomoon-font-family}' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-vectorpaintpstvepost {
+  &:before {
+    content: $icon-vectorpaintpstvepost; 
+  }
+}
+.icon-vectorpaintvewvepost {
+  &:before {
+    content: $icon-vectorpaintvewvepost; 
+  }
+}
+
+
+.gradient {
+			background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
+		}
+
 @tailwind utilities;
-
-

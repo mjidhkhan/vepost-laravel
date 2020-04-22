@@ -11,28 +11,25 @@
 |
 */
 
-Route::get('/', function(){
-	return'start up page';
-});
-// About Page
-Route::get('/about', 'AboutController@index');
-
-// Support Page
-Route:: get('/support', 'SupportController@index');
-
-
-//Features Page
-Route::get('/features', 'AboutController@index');
-
-// Download Page
-Route::get('/downloads', 'DownloadController@index');
-
-
-
-
-
-
 //Auth::routes();
 Auth::routes(['verify' => true]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Landing Page
+Route::get('/home', 'LandingPage@index')->name('landingPage');
+Route::get('/', 'LandingPage@index')->name('landingPage');
+// About Page
+Route::get('/about', 'AboutController@index')->name('about');
+
+// Support Page
+Route:: get('/support', 'SupportController@index')->name('support');
+
+
+//Features Page
+Route::get('/features', 'FeaturesController@index')->name('features');
+
+// Download Page
+Route::get('/downloads', 'DownloadController@index')->name('downloads');
+
+// POD Page
+Route::get('/pod', 'PodController@index')->name('pod');
+Route::get('/downloadPDF','PodController@downloadPDF');

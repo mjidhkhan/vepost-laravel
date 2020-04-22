@@ -20,6 +20,8 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+   
+
     /**
      * Where to redirect users after login.
      *
@@ -37,4 +39,20 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    
+
+    public function username()
+    {
+         //return request()->vepost_address;
+        request()->session()->put('vepost_address', request()->vepost_address);
+        request()->session()->put('username', request()->username);
+        //request()->session()->keep([request()->username, request()->vepost_address]);
+        //dd(request()->session()->all());
+        return 'username';
+    }
+
+    
+
+
+    
 }

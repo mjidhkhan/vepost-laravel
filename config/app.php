@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'VePOST'),
 
     /*
     |--------------------------------------------------------------------------
@@ -163,7 +163,9 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         // GEOIP
-         \Torann\GeoIP\GeoIPServiceProvider::class,
+         Torann\GeoIP\GeoIPServiceProvider::class,
+
+         Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -231,6 +233,8 @@ return [
 
         //GeoIP
         'GeoIP' => \Torann\GeoIP\Facades\GeoIP::class,
+
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 

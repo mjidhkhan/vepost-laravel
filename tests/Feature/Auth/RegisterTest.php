@@ -36,13 +36,9 @@ class RegisterTest extends TestCase
     /** @test */
     public function user_can_view_a_registration_form()
     {
-       
-
-     
         $response = $this->get($this->registerGetRoute());
         $response->assertSuccessful();
         $response->assertViewIs('auth.register');
-        
     }
 
     /** @test */
@@ -56,7 +52,7 @@ class RegisterTest extends TestCase
     /** @test */
     public function user_can_register()
     {
-       
+
         $this->withoutExceptionHandling();
         Event::fake();
          //dd($this->data());
@@ -380,8 +376,7 @@ class RegisterTest extends TestCase
     {
         $cip = geoip()->getClientIP();
         $geoip= geoip()->getLocation('81.130.214.29');
-        
-       
+
         return [
             "name" => "John Doe",
             "email" => "john@example.com",
